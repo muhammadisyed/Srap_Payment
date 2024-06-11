@@ -1,0 +1,8 @@
+name: 'SRAP Payment'
+type: module
+description: 'Module for payment on SRAP site.'
+core_version_requirement: ^9.5 || ^10
+package: 'Custom'
+
+libraries:
+  - srap_payment/payment

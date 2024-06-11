@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Contains srap_payment.module.
+ */
+
+function srap_payment_theme($existing, $type, $theme, $path) {
+  return [
+    'payment_template' => [
+      'template'  => 'payment-template',
+      'variables' => ['billing_form' => NULL,'payment_info_form' => NULL,'place_order_form' => NULL, 'lang_code' => NULL],
+    ],
+    'success_template' => [
+      'template'  => 'success-template',
+      'variables' => ['order_title' => NULL,'order_number'=> NULL,'confirmation_email' => NULL,'order_replacement_button_text' => NULL,'print_receipt'=> NULL,'receipt_url'=> NULL, 'lang_code' => NULL],
+    ]
+  ];
+}

@@ -1,0 +1,35 @@
+srap_payment.content:
+  path: '/members-request'
+  defaults:
+    _controller: 'Drupal\srap_payment\Controller\PaymentController::content'
+    _title: 'Members Request'
+  requirements:
+    _permission: 'access content'
+srap_payment.success:
+  path: '/members-request-success'
+  defaults:
+    _controller: 'Drupal\srap_payment\Controller\PaymentControllerSuccess::content'
+    _title: 'Members Request'
+  requirements:
+    _permission: 'access content'
+srap_payment.stripe:
+  path: 'srap_payment/success'
+  methods: [POST]
+  defaults:
+    _controller: 'Drupal\srap_payment\Controller\PaymentControllerSuccess::stripeResponseHandler'
+  requirements:
+    _permission: 'access content'
+srap_payment.stripe_recurring:
+  path: 'srap_payment/recurring/success'
+  methods: [POST]
+  defaults:
+    _controller: 'Drupal\srap_payment\Controller\PaymentControllerSuccess::stripeRecurringResponseHandler'
+  requirements:
+    _permission: 'access content'
+srap_payment.temp:
+  path: '/temp'
+  defaults:
+    _controller: 'Drupal\srap_payment\Controller\PaymentController::temp'
+    _title: 'Temp'
+  requirements:
+    _permission: 'access content'

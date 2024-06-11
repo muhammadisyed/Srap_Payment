@@ -1,0 +1,9 @@
+payment:
+  version: 1.x
+  js:
+    js/srap_payment.js: {}
+  dependencies:
+    - core/jquery
+  css:
+    theme:
+      css/scrap_payment.css: {}

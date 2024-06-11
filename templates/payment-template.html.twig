@@ -1,0 +1,42 @@
+<div class="clearfix"></div>
+<div class="top-most-region">
+  <div class='content'>
+    <div class="replacement">
+      <a href='members-request-search'>{{ 'Back to Order a Replacement Member Kit'|t }}</a>
+    </div>
+    <div class='phone'>+1 (844) 565-7445</div>
+    </div>
+</div>
+<div class='logo'><img src='/themes/srap/logo-{{ lang_code }}.svg' alt='Logo'></div>
+<div class='container'>
+  <div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-center">
+      <div class='step-one'>
+        <h4 class="billing-heading">{% trans %}<span class="one"></span> Billing and Shipping Information{% endtrans %}<span class="step-one-edit">{{ 'EDIT'|t }}</span></h4>
+        <div class='step-one-form-header'>
+          <p>{% trans %}<strong>NOTE</strong>: Any updates made to the fields will only be used for payment processes and will not affect the existing user database.{% endtrans %}</p>
+          <h4>{% trans %}BILLING INFORMATION{% endtrans %}</h4>
+          <div class="row">
+            {{billing_form}}
+          </div>
+        </div>
+      </div>
+      <div class='step-two'>
+        <h4 class="payment-heading">{% trans %}<span class="two"></span> Payment Information{% endtrans %}<span class="step-two-edit">{{ 'EDIT'|t }}</span></h4>
+        <div class='step-two-form-header'>
+          <div class="row">
+            {{payment_info_form}}
+          </div>
+        </div>
+      </div>
+      <div class='step-three'>
+        <h4 class="order-heading">{% trans %}<span class="three"></span> Order Summary{% endtrans %}</h4>
+        <div class='step-three-form-header'>
+          <div class="row">
+            {{place_order_form}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

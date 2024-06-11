@@ -1,0 +1,245 @@
+<?php
+
+use Drupal\Core\Database\Database;
+
+function srap_payment_schema() {
+  $schema['replacement_kit_payment'] = array(
+    'description' => 'This table is for replacement kit orders.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier for a order id.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'membership_number' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'first_name' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'last_name' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'email' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'phone_number' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'address_line_one' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'address_line_two' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'city' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'province' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'postal_code' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'amount_paid' => array(
+        'type' => 'float',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array(
+      'id',
+    ),
+  );
+  $schema['srap_payment_stripe_info'] = [
+    'description' => 'Table containing stripe cus ids.',
+    'fields'      => [
+      'user_id'   => [
+        'description' => 'user_id from drupal database',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0
+      ],
+      'stripe_customer_id'  => [
+        'description' => 'Customer ID from stripe response.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'stripe_card_token'  => [
+        'description' => 'Card token from stripe response.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'stripe_sub_id'  => [
+        'description' => 'Subscription ID from stripe response.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'payment_type'  => [
+        'description' => 'Type of payment.',
+        'type'        => 'varchar',
+        'length'      => 32,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+    ],
+    'foreign keys' => [
+      'user_id' => [
+        'table' => 'users',
+        'columns' => [
+          'uid' => 'uid',
+        ],
+      ],
+    ],
+  ];
+  return $schema;
+}
+
+function srap_payment_update_8002() {
+  if (db_table_exists('srap_payment_stripe_info')) {
+    db_drop_table('srap_payment_stripe_info');
+  }
+  $specs = [
+    'description' => 'Table containing stripe cus ids.',
+    'fields'      => [
+      'user_id'   => [
+        'description' => 'user_id from drupal database',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0
+      ],
+      'stripe_customer_id'  => [
+        'description' => 'Customer ID from stripe response.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'stripe_card_token'  => [
+        'description' => 'Card token from stripe response.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'stripe_sub_id'  => [
+        'description' => 'Subscription ID from stripe response.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'payment_type'  => [
+        'description' => 'Type of payment.',
+        'type'        => 'varchar',
+        'length'      => 32,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'paid_by'       => [
+        'description' => 'user_id from user who made payment',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0
+      ],
+    ],
+    'foreign keys' => [
+      'user_id' => [
+        'table' => 'users',
+        'columns' => [
+          'uid' => 'uid',
+        ],
+      ],
+    ],
+  ];
+  $schema = Database::getConnection()->schema();
+  $schema->createTable('srap_payment_stripe_info', $specs);
+}
+
+function srap_payment_update_8003() {
+  $specs = [
+    'description' => 'Table containing stripe subs info.',
+    'fields'      => [
+      'user_id'   => [
+        'description' => 'user_id from drupal database',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0
+      ],
+      'stripe_customer_id'  => [
+        'description' => 'Customer ID from stripe response.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'stripe_subscription_id'  => [
+        'description' => 'Subscription ID from stripe response.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+    ],
+    'foreign keys' => [
+      'user_id' => [
+        'table' => 'users',
+        'columns' => [
+          'uid' => 'uid',
+        ],
+      ],
+    ],
+  ];
+  $schema = Database::getConnection()->schema();
+  $schema->createTable('srap_payment_stripe_subscriptions', $specs);
+}
+
+function srap_payment_update_8005() {
+  $spec = [
+    'mysql_type' => 'datetime',
+    'not null'   => TRUE,
+    'default' => format_date(time(), 'custom', 'Y-m-d H:i:s'),
+  ];
+  $schema = Database::getConnection()->schema();
+  $schema->addField('srap_payment_stripe_subscriptions', 'created', $spec);
+}
